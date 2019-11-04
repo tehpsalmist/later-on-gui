@@ -8,7 +8,7 @@ export const RefreshToken = ({ className }) => {
   const copy = () => {
     if (refreshToken) {
       const range = document.createRange()
-      range.selectNode(document.querySelector('#refresh-token'))
+      range.selectNodeContents(document.querySelector('#refresh-token'))
       window.getSelection().addRange(range)
 
       try {

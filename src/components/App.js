@@ -13,7 +13,7 @@ export const App = props => {
 
   return <div className='grid app-grid h-screen w-full'>
     <Router>
-      <nav className='navbar bg-green-300 text-gray-700 flex items-stretch'>
+      <nav className='sticky top-0 navbar bg-green-300 text-gray-700 flex items-stretch flex-no-wrap overflow-x-scroll'>
         <NavLink to='/' exact {...navlinkClasses}>Home</NavLink>
         <NavLink to='/docs' {...navlinkClasses}>Docs</NavLink>
         <NavLink to='/dashboard' {...navlinkClasses}>Dashboard</NavLink>

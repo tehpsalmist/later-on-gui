@@ -5,8 +5,9 @@
 .app-grid {
   grid-template:
     'navbar'
-    'main';
-  grid-template-rows: 3rem 1fr;
+    'main'
+    'footer';
+  grid-template-rows: 3rem 1fr auto;
 }
 
 .navbar {
@@ -16,6 +17,10 @@
 main {
   grid-area: main;
   display: grid;
+}
+
+footer {
+  grid-area: footer;
 }
 
 @tailwind utilities;

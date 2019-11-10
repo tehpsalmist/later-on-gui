@@ -7,9 +7,9 @@ export const Profile = props => {
 
   if (loading) return 'Loading...'
 
-  return <main className='flex-center flex-col h-screen'>
-    <img className='rounded-full' src={user.picture} />
-    <h2 className='text-3xl'>Name: {user.name || user.nickname || user.given_name || user.email || 'No Name'}</h2>
-    <RefreshToken className='mt-16' />
+  return <main className='flex-center flex-col'>
+    <img className='rounded-full max-w-32 md:max-w-64' src={user.picture} />
+    <h2 className='text-3xl'>{user.name || user.nickname || user.given_name || user.email || 'No Name'}</h2>
+    <RefreshToken className='mt-12 mx-2' />
   </main>
 }

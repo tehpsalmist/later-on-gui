@@ -28,9 +28,9 @@ export const RefreshToken = ({ className }) => {
   return <div className={className}>
     <h3 className='text-xl text-center'>Refresh Token:</h3>
     {refreshToken
-      ? <div className='flex justify-between items-center max-w-64 md:max-w-sm rounded p-2 border border-green-300'>
+      ? <div className='flex justify-between items-center rounded p-2 border border-red-300'>
         <pre id='refresh-token' className='truncate mr-auto'>{refreshToken}</pre>
-        <button className='rounded-full bg-gray-300 text-green-500 min-h-12 min-w-12 flex-center shadow-md ml-4 cursor-pointer hover:bg-gray-400 focus:outline-none' onClick={e => copy()}>Copy</button>
+        <button className='rounded-full bg-gray-300 text-red-500 min-h-12 min-w-12 flex-center shadow-md ml-4 cursor-pointer hover:bg-gray-400 focus:outline-none' onClick={e => copy()}>Copy</button>
       </div>
       : <button
         className='p-2 rounded bg-blue-300 text-gray-600 shadow-md hover:bg-blue-400 hover:text-gray-700 focus:bg-blue-500 focus:text-white'
@@ -41,5 +41,8 @@ export const RefreshToken = ({ className }) => {
         Get Refresh Token
       </button>}
     {copied && <p className='text-center text-green-500'>Copied!</p>}
+    {refreshToken && copied && <p className='text-justify text-red-500'>
+      Please note that a refresh token is highly privileged and should only be stored AND USED on your protected server. DO NOT store or use your refresh tokens in client-facing, browser-based applications. This is a massive security risk and could easily lead to your account(s) or identity being compromised.
+    </p>}
   </div>
 }

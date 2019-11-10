@@ -38,6 +38,7 @@ export const App = props => {
         <Route path='/docs' component={withRouter(Docs)} />
         <Redirect from='/documentation' to='/docs' />
         <PrivateRoute path='/profile' component={withRouter(Profile)} />
+        <Redirect from='/account' to='/profile' />
         <PrivateRoute path='/dashboard' component={withRouter(Dashboard)} />
         <Route exact path='/' component={withRouter(Home)} />
         <Redirect to='/' />

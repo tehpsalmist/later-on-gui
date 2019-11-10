@@ -36,6 +36,7 @@ export const App = props => {
       </nav>
       <Switch>
         <Route path='/docs' component={withRouter(Docs)} />
+        <Redirect from='/documentation' to='/docs' />
         <PrivateRoute path='/profile' component={withRouter(Profile)} />
         <PrivateRoute path='/dashboard' component={withRouter(Dashboard)} />
         <Route exact path='/' component={withRouter(Home)} />

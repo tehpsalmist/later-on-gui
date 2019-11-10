@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, NavLink, Route, Switch, withRouter } from 'react-router-dom'
 import { useAuth0 } from '../auth'
-import { PrivateRoute, Docs, Profile, Home, Dashboard } from '.'
+import { PrivateRoute, Docs, Profile, Home, Dashboard, Footer } from '.'
 
 const navlinkClasses = {
   className: 'flex-center px-3 hover:bg-green-400 focus:bg-green-500 focus:text-white cursor-pointer',
@@ -41,5 +41,6 @@ export const App = props => {
         <Route exact path='/' component={withRouter(Home)} />
       </Switch>
     </Router>
+    <Footer />
   </div>
 }

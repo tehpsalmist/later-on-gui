@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, NavLink, Route, Switch, withRouter } from 'react-router-dom'
+import { BrowserRouter as Router, NavLink, Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { useAuth0 } from '../auth'
 import { PrivateRoute, Docs, Profile, Home, Dashboard, Footer } from '.'
 
@@ -39,6 +39,7 @@ export const App = props => {
         <PrivateRoute path='/profile' component={withRouter(Profile)} />
         <PrivateRoute path='/dashboard' component={withRouter(Dashboard)} />
         <Route exact path='/' component={withRouter(Home)} />
+        <Redirect to='/' />
       </Switch>
     </Router>
     <Footer />

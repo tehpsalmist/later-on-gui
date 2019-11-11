@@ -29,7 +29,7 @@ export const App = props => {
         </span>}
         {isAuthenticated && <a
           className={navlinkClasses.className}
-          onClick={e => logout()}
+          onClick={e => logout({ returnTo: window.location.origin })}
         >
           Logout
         </a>}

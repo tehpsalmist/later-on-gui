@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, NavLink, Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { useAuth0 } from '../auth'
-import { PrivateRoute, Docs, Profile, Home, Dashboard, Footer } from '.'
+import { PrivateRoute, Docs, Account, Home, Dashboard, Footer } from '.'
 
 const navlinkClasses = {
   className: 'flex-center px-3 hover:bg-green-400 focus:bg-green-500 focus:text-white cursor-pointer',
@@ -17,7 +17,7 @@ export const App = props => {
         <NavLink to='/' exact {...navlinkClasses}>Home</NavLink>
         <NavLink to='/docs' {...navlinkClasses}>Docs</NavLink>
         <NavLink to='/dashboard' {...navlinkClasses}>Dashboard</NavLink>
-        {isAuthenticated && <NavLink to='/profile' {...navlinkClasses}>Profile</NavLink>}
+        {isAuthenticated && <NavLink to='/profile' {...navlinkClasses}>Account</NavLink>}
         {!isAuthenticated && !loading && <a
           className={navlinkClasses.className}
           onClick={e => loginWithPopup()}
@@ -37,7 +37,7 @@ export const App = props => {
       <Switch>
         <Route path='/docs' component={withRouter(Docs)} />
         <Redirect from='/documentation' to='/docs' />
-        <PrivateRoute path='/profile' component={withRouter(Profile)} />
+        <PrivateRoute path='/profile' component={withRouter(Account)} />
         <Redirect from='/account' to='/profile' />
         <PrivateRoute path='/dashboard' component={withRouter(Dashboard)} />
         <Route exact path='/' component={withRouter(Home)} />

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useAuth0 } from '../auth'
 import { RefreshToken, AccessToken } from '.'
 
-export const Profile = props => {
+export const Account = props => {
   const { loading, user, getRefreshToken, refreshToken } = useAuth0()
 
   if (loading) return 'Loading...'

@@ -2,7 +2,8 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Auth0Provider } from './auth'
 import { BrowserRouter } from 'react-router-dom'
-import { App } from './components'
+
+console.log(process.env.BASE_URL)
 
 render(
   <BrowserRouter>

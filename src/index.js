@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Auth0Provider } from './auth'
 import { BrowserRouter } from 'react-router-dom'
+import { App, SWRWrapper } from './components'
 
 console.log(process.env.BASE_URL)
 
@@ -14,7 +15,9 @@ render(
       scope='openid profile email'
       audience='https://later-on.com/api'
     >
-      <App />
+      <SWRWrapper>
+        <App />
+      </SWRWrapper>
     </Auth0Provider>
   </BrowserRouter>,
   document.getElementById('app')

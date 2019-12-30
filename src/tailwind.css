@@ -23,6 +23,18 @@ footer {
   grid-area: footer;
 }
 
+.btn {
+  @apply rounded shadow-md flex justify-center items-center p-2;
+}
+
+.btn:hover {
+  @apply shadow-lg;
+}
+
+.btn:focus {
+  @apply shadow-none outline-none;
+}
+
 @tailwind utilities;
 
 @responsive {

@@ -57,7 +57,7 @@ export const AllJobs = props => {
                 await deleteJob(job._id)
               }}
             >
-              Delete
+              {deleting[job._id] ? 'Deleting...' : 'Delete'}
             </button>
           </div>
         </li>

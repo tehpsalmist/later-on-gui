@@ -1,20 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
-import { AllJobs } from '.'
+import { AllJobs, NewJob } from '.'
 
 export const Dashboard = props => {
   return <main>
-    <Tabs className='m-2 md:m-8'>
+    <Tabs defaultIndex={1} forceRenderTabPanel className='m-2 md:m-8 overflow-y-scroll max-h-full'>
       <TabList>
-        <Tab>Create A Job</Tab>
         <Tab>Existing Jobs</Tab>
+        <Tab>Create A Job</Tab>
       </TabList>
       <TabPanel>
-        <p>we gon create one yo</p>
+        <AllJobs />
       </TabPanel>
       <TabPanel>
-        <AllJobs />
+        <NewJob />
       </TabPanel>
     </Tabs>
   </main>

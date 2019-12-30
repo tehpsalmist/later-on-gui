@@ -2,9 +2,7 @@ import React from 'react'
 import { useAuth0 } from '../auth'
 import { SWRConfig } from 'swr'
 
-const baseURL = process.env.BASE_URL
-
-console.log(baseURL)
+export const baseURL = process.env.BASE_URL
 
 export const SWRWrapper = ({ children }) => {
   const { authToken, loading } = useAuth0()
@@ -12,7 +10,7 @@ export const SWRWrapper = ({ children }) => {
   return <SWRConfig
     value={{
       refreshInterval: 0,
-      fetcher: (url = '/jobs', init = {}) => fetch(`${baseURL}${url}`, {
+      fetcher: authToken && ((url = '/jobs', init = {}) => fetch(`${baseURL}${url}`, {
         ...init,
         headers: {
           Authorization: `Bearer ${authToken}`,
@@ -28,7 +26,7 @@ export const SWRWrapper = ({ children }) => {
 
             return res.text()
           }
-        })
+        }))
     }}
   >
     {children}

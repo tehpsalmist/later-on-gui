@@ -1,5 +1,29 @@
 @tailwind base;
 
+h1 {
+  @apply text-3xl;
+}
+
+h2 {
+  @apply text-2xl;
+}
+
+h3 {
+  @apply text-xl;
+}
+
+h4 {
+  @apply text-lg;
+}
+
+h5 {
+  @apply text-base;
+}
+
+h6 {
+  @apply text-sm font-bold;
+}
+
 @tailwind components;
 
 .app-grid {
@@ -23,6 +47,11 @@ footer {
   grid-area: footer;
 }
 
+.headers-grid {
+  grid-template-columns: 205px 1fr;
+  @apply grid col-gap-4 row-gap-2;
+}
+
 .btn {
   @apply rounded shadow-md flex justify-center items-center p-2;
 }
@@ -35,14 +64,22 @@ footer {
   @apply shadow-none outline-none;
 }
 
+.btn:disabled {
+  @apply bg-gray-300 text-black;
+}
+
+.input {
+  @apply font-mono border border-green-400 rounded p-1;
+}
+
+.react-datetime-picker__wrapper {
+  @apply font-mono border border-green-400 rounded p-1 !important;
+}
+
 @tailwind utilities;
 
 @responsive {
   .flex-center {
     @apply flex justify-center items-center;
-  }
-
-  .grid {
-    display: grid;
   }
 }

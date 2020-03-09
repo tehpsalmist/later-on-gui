@@ -7,7 +7,7 @@ import { useFreshClosure } from '../hooks'
 
 export const AllJobs = props => {
   const { authToken } = useAuth0()
-  const { data, error } = useSWR('/jobs', { revalidateOnFocus: false })
+  const { data, error } = useSWR('/jobs')
   const [deleting, setDeleting] = useState({})
 
   const onDelete = useFreshClosure((id, ok) => {

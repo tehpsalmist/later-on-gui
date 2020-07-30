@@ -27,15 +27,15 @@
     "parcel": "^1.12.4",
     "parcel-plugin-copy-files": "0.0.3",
     "sass": "^1.26.10",
-    "tailwindcss": "^1.4.6"
+    "tailwindcss": "^1.6.0"
   },
   "dependencies": {
-    "@auth0/auth0-spa-js": "^1.10.0",
+    "@auth0/auth0-spa-js": "^1.11.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
-    "cronstrue": "^1.94.0",
-    "formik": "^2.1.4",
+    "cronstrue": "^1.96.0",
+    "formik": "^2.1.5",
     "moment-timezone": "^0.5.31",
     "react": "^16.13.1",
     "react-ace": "^8.1.0",

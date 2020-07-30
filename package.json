@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "main": "index.html",
   "scripts": {
-    "start": "parcel serve src/index.html",
-    "build": "parcel build src/index.html --out-dir /var/www/public"
+    "start": "parcel serve src/index.html --no-source-maps",
+    "build": "parcel build src/index.html --out-dir /var/www/public --no-source-maps"
   },
   "repository": {
     "type": "git",
@@ -23,23 +23,28 @@
   },
   "homepage": "https://github.com/tehpsalmist/later-on-gui#readme",
   "devDependencies": {
-    "@fullhuman/postcss-purgecss": "latest",
+    "@fullhuman/postcss-purgecss": "^2.3.0",
     "parcel": "^1.12.4",
     "parcel-plugin-copy-files": "0.0.3",
-    "tailwindcss": "^1.2.0"
+    "sass": "^1.26.10",
+    "tailwindcss": "^1.6.0"
   },
   "dependencies": {
-    "@auth0/auth0-spa-js": "^1.5.0",
-    "cronstrue": "^1.85.0",
-    "formik": "^2.1.4",
-    "moment-timezone": "^0.5.28",
-    "react": "latest",
-    "react-ace": "^8.0.0",
-    "react-datetime-picker": "^2.8.0",
-    "react-dom": "latest",
-    "react-router-dom": "^5.1.2",
-    "react-tabs": "^3.1.0",
-    "swr": "^0.1.15"
+    "@auth0/auth0-spa-js": "^1.11.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@fortawesome/react-fontawesome": "^0.1.11",
+    "cronstrue": "^1.96.0",
+    "formik": "^2.1.5",
+    "moment-timezone": "^0.5.31",
+    "react": "^16.13.1",
+    "react-ace": "^8.1.0",
+    "react-datetime-picker": "^2.9.0",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "react-tabs": "^3.1.1",
+    "react-toastify": "^6.0.8",
+    "swr": "^0.1.18"
   },
   "browserslist": [
     "last 2 Chrome versions"

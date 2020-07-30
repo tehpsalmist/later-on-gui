@@ -1,6 +1,8 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useMemo } from 'react'
+import swr, { trigger, mutate } from 'swr'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSync } from '@fortawesome/free-solid-svg-icons'
 import cronstrue from 'cronstrue'
-import { extractCronStringOrErrorMessage, isValidUrl } from '../utils'
 import DateTimePicker from 'react-datetime-picker'
 import { tz } from 'moment-timezone'
 import { Formik, FieldArray, Field } from 'formik'
@@ -8,33 +10,46 @@ import AceEditor from 'react-ace'
 import 'ace-builds/src-noconflict/mode-json'
 import 'ace-builds/src-noconflict/theme-github'
 import { useAuth0 } from '../auth'
-import { trigger } from 'swr'
+import { extractCronStringOrErrorMessage, isValidUrl, isCronSyntax } from '../utils'
+import { toast } from 'react-toastify'
 
 const tzGuess = tz.guess()
 const methods = ['GET', 'POST', 'PUT', 'DELETE']
 
-export const NewJob = props => {
+export const EditJob = ({ job = {}, onClose }) => {
+  const isCron = useMemo(() => isCronSyntax(job.time), [job.time])
+
   const { authToken } = useAuth0()
-  const [date, setDate] = useState(new Date())
+
+  const [date, setDate] = useState((!isCron && job.time && new Date(job.time)) || new Date())
   const [dateError, setDateError] = useState('')
   const [cronExplained, setCronExplained] = useState({ valid: true, value: '' })
-  const [payload, setPayload] = useState('')
+  const [payload, setPayload] = useState(job.payload ? JSON.stringify(job.payload, null, 2) : '')
   const [payloadErrors, setPayloadErrors] = useState([])
 
   return <Formik
     initialValues={{
-      timeType: 'cron',
-      cron: '',
-      timeZone: tzGuess || 'UTC',
-      actionUrl: '',
-      failureUrl: '',
-      method: 'GET',
-      headers: [
-        {
-          key: 'Content-Type',
-          value: 'application/json'
-        }
-      ]
+      timeType: !job.time || isCron ? 'cron' : 'date',
+      cron: (isCron && job.time) || '',
+      timeZone: job.timeZone || tzGuess || 'UTC',
+      actionUrl: job.actionUrl || '',
+      failureUrl: job.failureUrl || '',
+      failureLogging: job.failureLogging || false,
+      method: job.method || 'GET',
+      headers: job._id
+        ? Array.isArray(job.headers)
+          ? job.headers
+          : job.headers instanceof Headers
+            ? job.headers.entries().map(([key, value]) => ({ key, value }))
+            : job.headers != null
+              ? Object.keys(job.headers).map(key => ({ key, value: job.headers[key] }))
+              : []
+        : [
+          {
+            key: 'Content-Type',
+            value: 'application/json'
+          }
+        ]
     }}
     onSubmit={async ({
       timeType,
@@ -42,6 +57,7 @@ export const NewJob = props => {
       timeZone,
       actionUrl,
       failureUrl,
+      failureLogging,
       method,
       headers
     }, {
@@ -50,26 +66,35 @@ export const NewJob = props => {
     }) => {
       setSubmitting(true)
 
-      await fetch(`${process.env.BASE_URL}/jobs`, {
+      const result = await fetch(`${process.env.BASE_URL}/jobs/${job._id || ''}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`
         },
-        method: 'POST',
+        method: job._id ? 'PUT' : 'POST',
         body: JSON.stringify({
           time: timeType === 'cron' ? cron : date,
           timeZone,
           actionUrl,
           failureUrl: failureUrl || undefined,
+          failureLogging,
           method,
           headers: headers.filter(h => h.key && h.value).reduce((map, { key, value }) => ({ ...map, [key]: value }), {}),
           payload: method === 'POST' || method === 'PUT' ? JSON.parse(payload) : undefined
         })
       })
+        .catch(err => err instanceof Error ? err : new Error(JSON.stringify(err)))
 
       setSubmitting(false)
-      resetForm()
+
+      if (result instanceof Error || !result.ok) {
+        return toast('Failed to save', { progressClassName: 'bg-red-400' })
+      }
+
+      toast('Job Saved!', { progressClassName: 'bg-green-400' })
       trigger('/jobs')
+
+      if (!job._id) resetForm()
     }}
     validate={values => {
       const errors = {}
@@ -116,8 +141,14 @@ export const NewJob = props => {
       return errors
     }}
   >
-    {({ errors, handleSubmit, handleChange, values, validateForm, isValid }) => {
+    {({ errors, handleSubmit, handleChange, values, validateForm, isValid, isSubmitting }) => {
       return <form onSubmit={handleSubmit}>
+        {typeof onClose === 'function' && <button
+          type='button'
+          className='btn text-red-600 focus:shadow-outline absolute top-0 right-0 mr-4 mt-4'
+          onClick={e => onClose()}>
+          Cancel
+        </button>}
         <div className='mb-2'>
           Frequency
           <div className='flex items-center'>
@@ -230,7 +261,7 @@ export const NewJob = props => {
                 <label className='flex'>
                   <span className='sr-only'>Header {index} Name</span>
                   <Field name={`headers.${index}.value`} className='input flex-grow' />
-                  <button className='rounded flex-center p-1 border border-red-400 text-red-500 hover:bg-red-400 hover:text-white hover:shadow' onClick={e => remove(index)}>Remove Header</button>
+                  <button type='button' className='rounded flex-center p-1 border border-red-400 text-red-500 hover:bg-red-400 hover:text-white hover:shadow' onClick={e => remove(index)}>Remove Header</button>
                 </label>
                 {errors && errors.headers && errors.headers[index] && (errors.headers[index].key || errors.headers[index].value) && <>
                   <p className='text-red-500'>{errors.headers[index].key}</p>
@@ -238,7 +269,7 @@ export const NewJob = props => {
                 </>}
               </Fragment>)}
               <div className='w-auto'>
-                <button onClick={e => insert(values.headers.length, { key: '', value: '' })} className='btn bg-blue-400 text-white'>
+                <button type='button' onClick={e => insert(values.headers.length, { key: '', value: '' })} className='btn bg-blue-400 text-white'>
                   Add Header
                 </button>
               </div>
@@ -246,22 +277,24 @@ export const NewJob = props => {
           </div>}
         </FieldArray>
         <hr className='my-4' />
-        <div className='mb-2'>
+        <div className='mb-2 flex flex-col'>
           <label>
             <span className='w-32 inline-block'>Failure URL</span>
             <Field className='input' style={{ width: 400 }} type='text' name='failureUrl' placeholder='optional (POST endpoint)' />
             <p className='text-red-500'>{errors.failureUrl}</p>
+            <p className='italic font-light text-sm'>Receive a payload detailing the failure of any job execution that does not succeed.</p>
+          </label>
+          <label className='mt-2'>
+            <span className='w-32 inline-block'>Failure Logging</span>
+            <Field type='checkbox' name='failureLogging' />
+            <p className='italic font-light text-sm'>Stores logs for any job execution that does not succeed. Turning this off means no logs will be stored (and thus cannot be retroactively enabled). All logs are cleared within one week.</p>
           </label>
         </div>
-        <button type='submit' disabled={!isValid} className='btn bg-green-500 text-white'>Create Job</button>
+        <button type='submit' disabled={!isValid || isSubmitting} className={`btn bg-green-500 text-white ${isValid ? '' : 'cursor-not-allowed'}`}>
+          {onClose ? 'Save Job' : 'Create Job'}
+          {isSubmitting && <FontAwesomeIcon icon={faSync} spin className='ml-2' />}
+        </button>
       </form>
     }}
   </Formik>
 }
-
-
-/*
-    method dropdown
-    headers key/value table of inputs
-    payload Ace editor
-*/

@@ -1,20 +1,23 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
-import { AllJobs, NewJob } from '.'
+import { AllJobs, EditJob } from '.'
+import { useRememberedState } from '../hooks'
 
 export const Dashboard = props => {
+  const [defaultIndex, setDefaultIndex] = useRememberedState(0)
+
   return <main>
-    <Tabs defaultIndex={1} forceRenderTabPanel className='m-2 md:m-8 overflow-y-scroll max-h-full'>
+    <Tabs defaultIndex={defaultIndex} forceRenderTabPanel className='m-2 md:m-8 overflow-y-scroll max-h-full'>
       <TabList>
-        <Tab>Existing Jobs</Tab>
-        <Tab>Create A Job</Tab>
+        <Tab onClick={e => setDefaultIndex(0)}>Existing Jobs</Tab>
+        <Tab onClick={e => setDefaultIndex(1)}>Create A Job</Tab>
       </TabList>
       <TabPanel>
         <AllJobs />
       </TabPanel>
       <TabPanel>
-        <NewJob />
+        <EditJob />
       </TabPanel>
     </Tabs>
   </main>

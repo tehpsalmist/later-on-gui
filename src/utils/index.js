@@ -1,5 +1,15 @@
 import cronstrue from 'cronstrue'
 
+export const isCronSyntax = thing => {
+  try {
+    const parts = thing.split(' ').length
+
+    return 5 <= parts && parts <= 6
+  } catch (e) {
+    return false
+  }
+}
+
 export const cronDescriptionOrFormattedDate = str => {
   const values = {
     cron: true,

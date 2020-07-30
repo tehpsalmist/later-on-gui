@@ -19,7 +19,7 @@ export const App = props => {
         <NavLink to='/dashboard' {...navlinkClasses}>Dashboard</NavLink>
         {isAuthenticated && <NavLink to='/profile' {...navlinkClasses}>Account</NavLink>}
         {!isAuthenticated && !loading && <a
-          className={navlinkClasses.className}
+          className={`ml-auto ${navlinkClasses.className}`}
           onClick={e => loginWithPopup()}
         >
           Login
@@ -28,7 +28,7 @@ export const App = props => {
           Logging In...
         </span>}
         {isAuthenticated && <a
-          className={navlinkClasses.className}
+          className={`ml-auto ${navlinkClasses.className}`}
           onClick={e => logout({ returnTo: window.location.origin })}
         >
           Logout

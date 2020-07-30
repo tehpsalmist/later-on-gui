@@ -1,0 +1,13 @@
+@charset 'UTF-8';
+
+@import '~react-toastify/scss/_variables.scss';
+@import '~react-toastify/scss/_toastContainer.scss';
+@import '~react-toastify/scss/_toast.scss';
+@import '~react-toastify/scss/_closeButton.scss';
+@import './progressBar';
+
+// entrance and exit animations
+@import '~react-toastify/scss/animations/_bounce.scss';
+@import '~react-toastify/scss/animations/_zoom.scss';
+@import '~react-toastify/scss/animations/_flip.scss';
+@import '~react-toastify/scss/animations/_slide.scss';

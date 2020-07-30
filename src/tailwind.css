@@ -26,6 +26,8 @@ h6 {
 
 @tailwind components;
 
+@import './react-toastify.scss';
+
 .app-grid {
   grid-template:
     'navbar'
@@ -77,6 +79,10 @@ footer {
 }
 
 @tailwind utilities;
+
+.striped:nth-of-type(odd) {
+  @apply bg-gray-100;
+}
 
 @responsive {
   .flex-center {

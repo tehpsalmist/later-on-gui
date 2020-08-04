@@ -31,9 +31,11 @@ export const JobListing = ({ className = '', style = {}, job, setEditing }) => {
     <div>
       <h2>{job.actionUrl}</h2>
       <p>{timeValues.formatted}</p>
-      {job.failed && <p className='text-red-600'>
-        Job Failed.&nbsp;
-        {job.failureLogging && <button className='text-red-400' onClick={e => setOpen(true)}>View Log Entries</button>}
+      {(job.failed || job.failureLogging) && <p className='text-red-600'>
+        {job.failed && 'Job Failed. '}
+        <button className='text-red-400' onClick={e => setOpen(true)}>
+          View Failure Log Entries
+        </button>
       </p>}
       <p>Failure Logging: {job.failureLogging ? 'Enabled' : 'Disabled'}</p>
     </div>

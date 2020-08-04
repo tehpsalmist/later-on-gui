@@ -28,21 +28,3 @@ export const AllJobs = ({ setJobs }) => {
     {jobs.map(job => <JobItem job={job} key={job._id} />)}
   </ul>
 }
-
-// {
-//   "_id": "5e0447606ac92a63cd527437",
-//   "actionUrl": "https://57108d10.ngrok.io",
-//   "failureUrl": "https://57108d10.ngrok.io/fail",
-//   "method": "POST",
-//   "payload": {
-//     "princess": "peach"
-//   },
-//   "headers": {
-//     "Content-Type": "application/json",
-//     "special": "wut wut"
-//   },
-//   "time": "2020-05-11T13:43:05.000",
-//   "timeZone": "America/New_York",
-//   "nextTick": 1589218985000,
-//   "userId": "google-oauth2|115429329466308578194"
-// }
